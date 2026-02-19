@@ -52,12 +52,12 @@ app.post("/api/items", (req, res)=> {
   res.send('this is a post response from /api/items/');
 });
 //PUT
-app.put("/api/items", (req, res)=> {
-  res.send('this is a post response from /api/items/');
+app.put("/api/items/:id", (req, res) => {
+res.send(`this is a put response from /api/items/`);
 });
 //DELETE
-app.delete("/api/items", (req, res)=> {
-  res.send('this is a post response from /api/items/');
+app.delete("/api/items/:id", (req, res) => {
+res.send(`this is a delete response from /api/items/`);
 });
 
 // start the server
