@@ -1,7 +1,7 @@
 // 1. setup a node app with command: npm init
 // 2. install express with command: npm install express
 // 3. create a file named server.js and add the following code
-
+// 4. start the db with command: brew services start mongodb-community //mac on windows start the mongodb server with command: & "C:\Program Files\MongoDB\Server\8.2\bin\mongod.exe" --dbpath="C:\data\db"
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -16,43 +16,40 @@ app.set("view engine", "handlebars");
 const path = require("path");
 
 //setup db connection
-// getting-started.js
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const { title } = require("process");
 // create schemas
 const destinationSchema = new mongoose.Schema({
   page: String,
   name: String,
   description: String,
-  image: String
-
+  image: String,
 });
 
 const Destination = mongoose.model("destinations", destinationSchema);
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/travelsite');
-
+  await mongoose.connect("mongodb://127.0.0.1:27017/travelsite");
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
-main().catch(err => console.log(err));
+main().catch((err) => console.log(err));
 
 // Serving static files
+// review middleware in express under week 7 in black board or https://expressjs.com/en/guide/using-middleware.html
 // express.static is a built-in middleware function in Express. It serves static files and is based on serve-static.
 // The function takes a root directory from which to serve static assets. In this case, we are serving files from the "static" directory.
-// review middleware in express under week 7 in black board or https://expressjs.com/en/guide/using-middleware.html
-
 app.use(express.static(path.join(__dirname, "static")));
-
+// Parse the body of incoming requests with urlencoded payloads and is based on body-parser. This middleware is used to parse the body of incoming requests and make it available under the req.body property. The extended: true option allows for rich objects and arrays to be encoded into the URL-encoded format, which can be useful for complex data structures.
 app.use(express.urlencoded({ extended: true }));
-
-// data 
+// data
 
 // generate routes
 app.get("/", (req, res) => {
   // Homepage route
+  res.render("home", { title: "Welcome to Travel Site" });
 });
 
-// generate routes to populate destinations page 
+// generate routes to populate destinations page
 app.post("/destinations", async (req, res) => {
   // code to add a new destination to the database
   const { page, name, description, image } = req.body;
@@ -65,7 +62,17 @@ app.post("/destinations", async (req, res) => {
   });
   await newDestination.save();
   //res.redirect("/destinations");
-  res.send("Destination added successfully")
+  res.send("Destination added successfully");
+});
+// generate routes to display destinations page
+app.get("/destinations", async (req, res) => {
+  // code to fetch destinations from the database and render the destinations page
+  // .lean() is a method in Mongoose that is used to convert a Mongoose document into a plain JavaScript object. When you query the database using Mongoose, it returns a Mongoose document, which has additional methods and properties that are not present in a plain JavaScript object. By calling .lean(), you can get a plain JavaScript object instead of a Mongoose document, which can be more efficient for read-only operations where you don't need the additional functionality provided by Mongoose documents.
+  const destinations = await Destination.find().lean();
+  res.render("destinations", {
+    destinations: destinations,
+    title: "Destinations",
+  });
 });
 
 // start the server
