@@ -1,8 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;600;700&display=swap');
 
 .square {
     aspect-ratio: 1 / 1;
     width: 100%;
+    object-fit: cover;
 }
+.widescreen {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    object-fit: cover;
+}
+
 .font-24 {
     font-size: 24px;
 }
