@@ -19,11 +19,49 @@ const path = require("path");
 const mongoose = require("mongoose");
 const { title } = require("process");
 // create schemas
-const destinationSchema = new mongoose.Schema({
-  page: String,
+const pageSchema = new mongoose.Schema({
+  slug: String, //about-us friendly url
+  name: String, //About Us
+  description: String,
+});
+const gallerySchema = new mongoose.Schema({
   name: String,
   description: String,
-  image: String,
+});
+const imageSchema = new mongoose.Schema({
+  url: String,
+  caption: String,
+  gallery: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "galleries",
+  },
+});
+
+const destinationSchema = new mongoose.Schema(
+  {
+    page: String,
+    name: String,
+    description: String,
+    image: String,
+  },
+  {
+    virtuals: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
+);
+// See virtuals in mongoose documentation https://mongoosejs.com/docs/guide.html#virtuals
+destinationSchema.virtual("activities", {
+  ref: "activities",
+  localField: "_id",
+  foreignField: "destination",
+});
+
+// Add virtual field for the gallery to the image schema
+gallerySchema.virtual("images", {
+  ref: "images",
+  localField: "_id",
+  foreignField: "gallery",
 });
 // Activities schema for things to do in each destination
 const activitySchema = new mongoose.Schema({
@@ -40,6 +78,12 @@ const activitySchema = new mongoose.Schema({
 const Destination = mongoose.model("destinations", destinationSchema);
 
 const Activity = mongoose.model("activities", activitySchema);
+
+const Page = mongoose.model("pages", pageSchema);
+
+const Gallery = mongoose.model("galleries", gallerySchema);
+
+const Image = mongoose.model("images", imageSchema);
 
 async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/travelsite");
@@ -59,7 +103,15 @@ app.use(express.urlencoded({ extended: true }));
 // generate routes
 app.get("/", (req, res) => {
   // Homepage route
-  res.render("home", { title: "Welcome to Travel Site" });
+  // Find the home page in the database and render it with the title "Welcome to Travel Site"
+  const homePage = Page.findOne({ slug: "home" }).lean();
+  //Bring in the gallery
+  const gallery = Gallery.findOne({ name: "home" }).populate("images").lean();
+  res.render("home", {
+    title: homePage.name,
+    description: homePage.description,
+    galleryImages: gallery.images,
+  });
 });
 
 // generate routes to populate destinations page
@@ -90,12 +142,15 @@ app.get("/destinations", async (req, res) => {
 // Get a specific destination by _id
 app.get("/destinations/:id", async (req, res) => {
   const { id } = req.params;
-  const destination = await Destination.findById(id).lean();
-  const activities = await Activity.find({ destination: id }).lean();
+  const destination = await Destination.findById(id)
+    .populate("activities")
+    .lean();
+  //const activities = await Activity.find({ destination: id }).lean();
+
   res.render("details", {
     destination: destination,
     title: destination.name,
-    activities: activities,
+    activities: destination.activities,
   });
 });
 
@@ -111,6 +166,39 @@ app.post("/activities", async (req, res) => {
   });
   await newActivity.save();
   res.send("Activity added successfully");
+});
+
+// Create a new page
+app.post("/pages", async (req, res) => {
+  const { slug, name, description } = req.body;
+  const newPage = new Page({
+    slug,
+    name,
+    description,
+  });
+  await newPage.save();
+  res.send("Page added successfully");
+});
+// Create a new gallery
+app.post("/galleries", async (req, res) => {
+  const { name, description } = req.body;
+  const newGallery = new Gallery({
+    name,
+    description,
+  });
+  await newGallery.save();
+  res.send("Gallery added successfully");
+});
+// Create a new image
+app.post("/images", async (req, res) => {
+  const { url, caption, gallery } = req.body;
+  const newImage = new Image({
+    url,
+    caption,
+    gallery,
+  });
+  await newImage.save();
+  res.send("Image added successfully");
 });
 
 // start the server
