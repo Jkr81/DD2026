@@ -104,10 +104,12 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res) => {
   // Homepage route
   // Find the home page in the database and render it with the title "Welcome to Travel Site"
-  const homePage = await Page.findOne({ slug: "home" }).lean().exec();
+  const homePage = await Page.findOne({ slug: "home" }).lean();
   //Bring in the gallery
-  const gallery = await Gallery.findOne({ name: "home" }).populate("images").lean();
-  
+  const gallery = await Gallery.findOne({ name: "home" })
+    .populate("images")
+    .lean();
+
   const destinations = await Destination.find().lean();
   res.render("home", {
     title: homePage.name,
@@ -126,7 +128,7 @@ app.post("/destinations", async (req, res) => {
     page,
     name,
     description,
-    image,               
+    image,
   });
   await newDestination.save();
   //res.redirect("/destinations");
