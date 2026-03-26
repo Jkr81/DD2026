@@ -1,0 +1,66 @@
+[{
+  "_id": {
+    "$oid": "69bc1fcde2c748afdd9c08e8"
+  },
+  "url": "images/homepage1.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bc2001e2c748afdd9c08ea"
+  },
+  "url": "images/homepage2.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bc2007e2c748afdd9c08ec"
+  },
+  "url": "images/homepage3.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c442223a0d69643aa8fbfe"
+  },
+  "url": "images/homepage4.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c444b93a0d69643aa8fbff"
+  },
+  "url": "images/homepage5.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c444bd3a0d69643aa8fc00"
+  },
+  "url": "images/homepage6.jpg",
+  "caption": "description of what the image is",
+  "gallery": {
+    "$oid": "69c2b11b83b7b08119687a90"
+  },
+  "__v": 0
+}]

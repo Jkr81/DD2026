@@ -1,0 +1,117 @@
+[{
+  "_id": {
+    "$oid": "69a9bf33f13d82f21e8f66c8"
+  },
+  "name": "California Academy of Sciences",
+  "description": "The California Academy of Sciences is a renowned scientific and educational institution in San Francisco's Golden Gate Park, combining an aquarium, planetarium, rainforest, and natural history museum\n",
+  "image": "/images/academy.jpg",
+  "cost": 59.99,
+  "destination": {
+    "$oid": "69a080aa8405be2a2cca848e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69a9c26ef13d82f21e8f66d9"
+  },
+  "name": "Japanese Tea Garden",
+  "description": "The Japanese Tea Garden in San Francisco, California, is a popular feature of Golden Gate Park, originally built as part of a sprawling World's Fair, the California Midwinter International Exposition of 1894.\n",
+  "image": "/images/garden.jpg",
+  "cost": 18.25,
+  "destination": {
+    "$oid": "69a080aa8405be2a2cca848e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c44bf23a0d69643aa8fc15"
+  },
+  "name": "Hamon Observation Tower",
+  "description": "The Hamon Observation Tower is a free, 144-foot-tall public viewing deck on the 9th floor of San Francisco's de Young Museum in Golden Gate Park. It features floor-to-ceiling glass walls providing stunning 360-degree views of Golden Gate Park.\n",
+  "image": "/images/tower.jpg",
+  "cost": 0,
+  "destination": {
+    "$oid": "69a080aa8405be2a2cca848e"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c450d43a0d69643aa8fc18"
+  },
+  "name": "Alcatraz Ticket, Ferry, & Self-Guided App",
+  "description": "Explore San Francisco's mysteries with this entry ticket and self-guided app tour to Alcatraz. Explore the infamous island prison, ride a ferry across the bay, and learn the site's history.",
+  "image": "/images/cell.jpg",
+  "cost": 79,
+  "destination": {
+    "$oid": "69aa6bcfc692ea743a2b0f73"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c450f53a0d69643aa8fc1b"
+  },
+  "name": "Alcatraz Jailhouse Night Tour",
+  "description": "Embark on an exhilarating journey through history with this Alcatraz highlights tour. Step foot on the infamous island that once contained America's most notorious criminals at night.\n",
+  "image": "/images/night.jpg",
+  "cost": 98,
+  "destination": {
+    "$oid": "69aa6bcfc692ea743a2b0f73"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c450f73a0d69643aa8fc1c"
+  },
+  "name": "Alcatraz, Muir Woods & Sausalito 2-Day Tour",
+  "description": "Explore Alcatraz Island on a tour of the notorious former federal prison. The next day, escape the crowds and explore Muir Woods.",
+  "image": "/images/wood.jpg",
+  "cost": 223,
+  "destination": {
+    "$oid": "69aa6bcfc692ea743a2b0f73"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c451133a0d69643aa8fc1f"
+  },
+  "name": "Powell-Hyde Cable Car",
+  "description": "The Powell-Hyde Cable Car in San Francisco travels between Powell & Market and Fisherman’s Wharf, featuring iconic views of Lombard Street, Alcatraz, and the Bay. Rides take around 16–20 minutes. \n",
+  "image": "/images/cable.jpg",
+  "cost": 9,
+  "destination": {
+    "$oid": "69c441473a0d69643aa8fbf8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c4511e3a0d69643aa8fc20"
+  },
+  "name": "Museum of 3D Illusions",
+  "description": "The Museum of 3D Illusions features over 40 interactive 3D murals that make you part of the art. Step inside mind-bending scenes, snap unforgettable photos, and create content that’s as fun as it is shareable.\n",
+  "image": "/images/3D.jpg",
+  "cost": 45,
+  "destination": {
+    "$oid": "69c441473a0d69643aa8fbf8"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c451233a0d69643aa8fc21"
+  },
+  "name": "Vantigo Tours",
+  "description": "Vantigo tours will give you the best tour of San Francisco from a local tour guide in a fully restored vintage Volkswagen bus. Jump in one of our classic VW Vans (Lillie & Harvey) and experience all the Bay Area has to offer\n",
+  "image": "/images/VW.jpg",
+  "cost": 129,
+  "destination": {
+    "$oid": "69c441473a0d69643aa8fbf8"
+  },
+  "__v": 0
+}]

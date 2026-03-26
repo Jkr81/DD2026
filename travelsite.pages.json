@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "69bc1d69e2c748afdd9c08de"
+  },
+  "slug": "home",
+  "description": "Welcome To San Francisco",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69bc1d8fe2c748afdd9c08e0"
+  },
+  "slug": "about-us",
+  "description": "Welcome to our site",
+  "__v": 0
+}]

@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "69a080aa8405be2a2cca848e"
+  },
+  "page": "Golden Gate Park",
+  "name": "Golden Gate Park",
+  "description": "Golden Gate Park, a vast 1,017-acre urban oasis in San Francisco, offers world-class museums like the California Academy of Sciences and de Young Museum, stunning gardens (Japanese Tea Garden, Conservatory of Flowers), and unique sights like the bison paddock, Dutch Windmills, and Stow Lake boat rentals. Visitors can enjoy hiking, biking, picnics, and free activities such as exploring the AIDS Memorial Grove or the Hamon Observation Tower.\n",
+  "image": "/images/park.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69aa6bcfc692ea743a2b0f73"
+  },
+  "page": "Alcatraz Island",
+  "name": "Alcatraz Island",
+  "description": "Alcatraz Island, located in San Francisco Bay, is a renowned former federal prison (1934–1963) that held notorious criminals like Al Capone. Now a popular National Park Service site, it features tours of the cellhouse, historic gardens, and bird sanctuaries, accessible via Alcatraz City Cruises from Pier 33. The prison closed in 1963 due to high operating costs and deterioration. \n",
+  "image": "/images/island.jpg",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69c441473a0d69643aa8fbf8"
+  },
+  "page": "Lombard Street",
+  "name": "Lombard Street",
+  "description": "Lombard Street in San Francisco is a world-famous, steeply graded street on Russian Hill known for its \"crooked\" one-block section containing eight hairpin turns. Built in 1922 to manage a 27% grade, the scenic, one-way brick road is surrounded by gardens, making it a major tourist attraction often called the \"crookedest street in the world\"\n",
+  "image": "/images/street.jpg",
+  "__v": 0
+}]
