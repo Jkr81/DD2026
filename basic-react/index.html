@@ -4,127 +4,168 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!-- Link to the react library from unpkg.com -->
+
+    <!-- React -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Link to the Babel library from unpkg.com -->
+
+    <!-- Babel -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
   </head>
+
   <body>
-    <!-- Important React concepts: Components, Props, State -->
-    <div id="app"></div>
+    <div id="app" class="container"></div>
+
     <script type="text/babel">
-      const fruits = ["Apple", "Banana", "Cherry", "Mango", "Pineapple"];
-
       const app = document.getElementById("app");
-      // React Components
+
       function Header({ title }) {
-        return <h1> {createTitle(title)} </h1>;
-      }
-      function Paragraph(props) {
-        return <p>{props.text}</p>;
-      }
-      function createTitle(title) {
-        if (title) {
-          return title;
-        } else {
-          return "Default title";
-        }
+        return <h1>{title || "Default title"}</h1>;
       }
 
-      function Results({ result }) {
+      function Paragraph({ text }) {
+        return <p>{text}</p>;
+      }
+
+      function formatHtml(text) {
+        return <span dangerouslySetInnerHTML={{ __html: text }} />;
+      }
+
+      function Results({
+        result,
+        totalResults,
+        currentPage,
+        lastPage,
+        getNextPage,
+        getPreviousPage,
+      }) {
         return (
-          <div>
-            <h2>Search Results:</h2>
-            <ul>
-              {result.map((res, index) => (
-                <li key={res.alpha}>
-                  {res.alpha} <br />
-                  {res.context} <br />
-                  <a href={res.url} target="_blank">
-                    View
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <div className="mt-4">
+            {result.length > 0 && <h2>Search Results:</h2>}
+
+            {result.length > 0 && (
+              <>
+                <Paragraph text={`Showing page ${currentPage} of ${lastPage}`} />
+                <Paragraph text={`Total Results: ${totalResults}`} />
+              </>
+            )}
+
+            <table className="table table-striped">
+              <tbody>
+                {result.map((res) => (
+                  <tr key={res.uid}>
+                    <td>
+                      <strong>{res.alpha}</strong> <br />
+                      {formatHtml(res.context)} <br />
+                      <a href={res.url} target="_blank">
+                        View
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {result.length > 0 && (
+              <div className="d-flex gap-2">
+                <button
+                  className="btn btn-secondary"
+                  onClick={getPreviousPage}
+                  disabled={currentPage === 1}
+                >
+                  Previous Page
+                </button>
+
+                <button
+                  className="btn btn-secondary"
+                  onClick={getNextPage}
+                  disabled={currentPage === lastPage}
+                >
+                  Next Page
+                </button>
+              </div>
+            )}
           </div>
         );
       }
 
       function Homepage() {
-        //react state
-        const [likes, setLikes] = React.useState(0);
-        const [name, setName] = React.useState("John Doe");
-
-        // Search application
         const [searchTerm, setSearchTerm] = React.useState("");
-
-        // track results
         const [searchResults, setSearchResults] = React.useState([]);
 
-        function handleClick() {
-          setLikes(likes + 1);
-          //likes = likes + 1;
-          //likes += 1;
-          //likes++;
-          console.log("You clicked the button!");
-          console.log("Likes: ", likes);
-        }
-        function performSearch() {
-          const searchUrl = `https://www.cdn.miami.edu/_assets-common/php/searchblox/?q=${searchTerm}`;
-          fetch(searchUrl)
-            .then((response) => response.json())
+        // pagination state
+        const [totalResults, setTotalResults] = React.useState(0);
+        const [currentPage, setCurrentPage] = React.useState(1);
+        const [lastPage, setLastPage] = React.useState(1);
+
+        function performSearch(page = 1) {
+          const url = `https://www.cdn.miami.edu/_assets-common/php/searchblox/?q=${searchTerm}&page=${page}`;
+
+          fetch(url)
+            .then((res) => res.json())
             .then((data) => {
-              console.log("Search results: ", data);
-              setSearchResults(data.result);
-              // You can also update the state with the search results here
+              setSearchResults(data.result || []);
+              setTotalResults(data.hits || 0);
+              setCurrentPage(data.currentPage || 1);
+              setLastPage(data.lastPage || 1);
             })
-            .catch((error) => {
-              console.error("Error performing search: ", error);
-            });
+            .catch((err) => console.error(err));
+        }
+
+        function handleSearch() {
+          setCurrentPage(1);
+          performSearch(1);
+        }
+
+        function getNextPage() {
+          if (currentPage < lastPage) {
+            performSearch(currentPage + 1);
+          }
+        }
+
+        function getPreviousPage() {
+          if (currentPage > 1) {
+            performSearch(currentPage - 1);
+          }
         }
 
         return (
           <>
-            <Header title="Welcome to the homepage" />
-            <Header />
-            <Paragraph
-              text="This is the homepage. Plus some other text."
-              color="red"
+            <Header title="Welcome to the search page" />
+            <Paragraph text="Enter a search term below." />
+
+            <div className="mb-3">
+              <input
+                className="form-control"
+                placeholder="Search miami.edu..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+
+            <button className="btn btn-primary" onClick={handleSearch}>
+              Search
+            </button>
+
+            <Results
+              result={searchResults}
+              totalResults={totalResults}
+              currentPage={currentPage}
+              lastPage={lastPage}
+              getNextPage={getNextPage}
+              getPreviousPage={getPreviousPage}
             />
-            <ul>
-              {fruits.map((fruit, index) => (
-                <li key={index}>{fruit}</li>
-              ))}
-            </ul>
-            // https://www.cdn.miami.edu/_assets-common/php/searchblox/?
-            <label htmlFor="name">Name: </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Paragraph text={`You entered: ${name}!`} />
-            <button onClick={handleClick}> ({likes}) Likes</button>
-            <br />
-            <label htmlFor="search">Search: </label>
-            <input
-              type="text"
-              id="search"
-              name="search"
-              placeholder="Search miami.edu..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button onClick={performSearch}>Search</button>
-            <Results result={searchResults} />
           </>
         );
       }
 
-      const root = ReactDOM.createRoot(app);
-      root.render(<Homepage />);
+      ReactDOM.createRoot(app).render(<Homepage />);
     </script>
   </body>
 </html>
