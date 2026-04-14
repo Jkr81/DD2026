@@ -14,6 +14,7 @@ app.set("view engine", "handlebars");
 //app.set("views", path.join(__dirname, "views"));
 // the path module is used to work with file and directory paths
 const path = require("path");
+app.use(express.json());
 
 //setup db connection
 const mongoose = require("mongoose");
@@ -129,7 +130,7 @@ app.get("/", async (req, res) => {
 });
 
 // generate routes to populate destinations page
-app.post("/destinations", async (req, res) => {
+app.post("/api/destinations", async (req, res) => {
   // code to add a new destination to the database
   const { page, name, description, image } = req.body;
   console.log(req.body);

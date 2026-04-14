@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Destination {
   _id: string;
@@ -7,21 +7,22 @@ interface Destination {
   description: string;
 }
 
-export default function Destinations() {
+export default function DestinationsPage() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
 
   useEffect(() => {
-    // Simulate fetching data from an API
-    const fetchingDestinations = async () => {
+    // Simulate fetching destinations from an API
+    const fetchDestinations = async () => {
       // Replace this with your actual API call
       const response = await fetch("http://localhost:3001/api/destinations");
       const data = await response.json();
       setDestinations(data);
-      console.log(data);
+      console.log(data)
     };
 
-    fetchingDestinations();
+    fetchDestinations();
   }, []);
+
 
   return (
     <div>
@@ -29,26 +30,28 @@ export default function Destinations() {
       <table className="table-auto w-full border-collapse border border-gray-400">
   <thead>
     <tr>
-      <th className="border border-gray-400 p-2">Name</th>
-      <th className="border border-gray-400 p-2">Description</th>
-      <th className="border border-gray-400 p-2">Actions</th>
+      <th className="border border-gray-600 p-2">Name</th>
+      <th className="border border-gray-600 p-2">Description</th>
+      <th className="border border-gray-600 p-2">Actions</th>
     </tr>
   </thead>
   <tbody>
     { destinations.map((destination) => (
       <tr key={destination._id}>
-        <td className="border border-gray-400 p-2">{destination.name}</td>
-        <td className="border border-gray-400 p-2">{destination.description}</td>
-        <td className="border border-gray-400 p-2">
+        <td className="border border-gray-600 p-2">{destination.name}</td>
+        <td className="border border-gray-600 p-2">{destination.description}</td>
+        <td className="border border-gray-600 p-2">
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Edit
           </button>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
             Delete
           </button>
         </td>
       </tr>
-    )) }
+    ))}
+    
+    
   </tbody>
 </table>
     </div>
