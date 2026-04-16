@@ -5,9 +5,8 @@ export default function NewDestination() {
   const [formData, setFormData] = useState({
     name: "",
     page: "",
-    destination: "",
-    image: "",
-    description: ""
+    description: "",
+    image: null as File | null
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,20 +19,33 @@ export default function NewDestination() {
     console.log(formData);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData({
+        ...formData,
+        image: e.target.files[0]
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     console.log("Form submitted:", formData);
+    const body = new FormData();
+    body.append("name", formData.name);
+    body.append("page", formData.page);
+    body.append("description", formData.description);
+    if (formData.image) {
+      body.append("image", formData.image);
+    }
     try {
       console.log("Submitting form data:");
       // fetch the data 
       const response = await fetch("http://localhost:3001/api/destinations", {  
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
+        body: body 
       });
       if (!response.ok) {
         throw new Error("Failed to add destination");
@@ -74,14 +86,17 @@ export default function NewDestination() {
     />
 </div>
             <div className="mb-4">
-                <label className="block w-full font-bold" htmlFor="image">Image</label>
+                <label className="block w-full font-bold" htmlFor="image">Image
+                  Image: 
+                </label>
                 <input
                 type="text"
                 id="image"
                 name="image"
-                onChange={handleChange}
-                value={formData.image}
-                className="border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="border border-gray-300 rounded py-2 px-3 focus:outline-none 
+                focus:ring-2 focus:ring-blue-500"
                 />
     </div>
     <div className="mb-4">

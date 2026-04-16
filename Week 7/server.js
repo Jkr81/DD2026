@@ -16,6 +16,18 @@ app.set("view engine", "handlebars");
 const path = require("path");
 app.use(express.json());
 
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '.static/images/')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() +"-"+ file.originalname);
+  },
+});
+const upload = multer({ storage: storage })
+
 //setup db connection
 const mongoose = require("mongoose");
 const { title } = require("process");
@@ -130,15 +142,16 @@ app.get("/", async (req, res) => {
 });
 
 // generate routes to populate destinations page
-app.post("/api/destinations", async (req, res) => {
+app.post("/api/destinations", upload.single('image'), async (req, res) => {
   // code to add a new destination to the database
-  const { page, name, description, image } = req.body;
+  const { page, name, description} = req.body;
+  const image = req.file; // Get the path of the uploaded image 
   console.log(req.body);
   const newDestination = new Destination({
     page,
     name,
     description,
-    image,
+    image: image.filename ? `/images/${image.filename}` : "/images/default.jpg" // Store the path of the uploaded image in the database
   });
   await newDestination.save();
   //res.redirect("/destinations");
