@@ -1,8 +1,36 @@
-// form fields: name, page, description, image
+// form fields: name, page, destination, image
 "use client";
-import { useState } from "react";
-import {redirect } from "next/navigation";
-export default function NewDestination() {
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation"; 
+interface Destination {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+}
+
+export default function UpdateDestination() {
+const [destination, setDestination] = 
+useState<Destination | null>(null);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  useEffect(() => {
+    // Simulate fetching destinations from an API
+    const fetchDestination = async () => {
+      // Replace this with your actual API call
+      const response = await fetch(`http://localhost:3001/api/destinations/${searchParams.get("id")}`);
+      const data = await response.json();
+      setDestination(data);
+      setFormData({
+        name: data.name,
+        page: data.page || "",
+        description: data.description,
+        image: null
+      });
+      console.log(data)
+    }; 
+    fetchDestination();
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     page: "",
@@ -44,15 +72,16 @@ export default function NewDestination() {
     try {
       console.log("Submitting form data:");
       // fetch the data 
-      const response = await fetch("http://localhost:3001/api/destinations", {  
-        method: "POST",
+      const response = await fetch(`http://localhost:3001/api/destinations/${searchParams.get("id")}`, {  
+        method: "PUT",
         body: body 
       });
       if (!response.ok) {
-        throw new Error("Failed to add destination");
+        throw new Error("Failed to update destination");
+      } else {
+        // everything worked. send the user back to the destinations page
+        router.push("/destinations");
       }
-      // everything worked. send the user back to the destinations page
-      // redirect("/destinations");
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -63,7 +92,8 @@ export default function NewDestination() {
 
   return (
     <div className="max-w-[600px] w-full">
-        <h1 className="text-3xl font-bold mb-4">Add New Destination</h1>
+        <h1 className="text-3xl font-bold mb-4">Edit 
+            Destination {searchParams.get("id")}</h1>
         <form className="mt-4" onSubmit={handleSubmit}>
             <div className="mb-4">
                 <label className="block w-full font-bold" htmlFor="name">Name</label>
@@ -89,11 +119,9 @@ export default function NewDestination() {
     />
 </div>
             <div className="mb-4">
-                <label className="block w-full font-bold" htmlFor="image">Image
-                  Image: 
-                </label>
+                <label className="block w-full font-bold" htmlFor="image">Image:</label>
                 <input
-                type="text"
+                type="file"
                 id="image"
                 name="image"
                 accept="image/*"
@@ -104,13 +132,12 @@ export default function NewDestination() {
     </div>
     <div className="mb-4">
         <label className="block w-full font-bold" htmlFor="description">Description</label>
-        <input
-        type="text"
+        <textarea
         id="description"
         name="description"
         value={formData.description}
         onChange={handleChange}
-        className="border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="border border-gray-300 rounded py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
         />
     </div>
 <div className="mb-4">
@@ -121,7 +148,7 @@ export default function NewDestination() {
   py-2 px-4 rounded"
   disabled={loading}
   >
-    Add Destination
+    Update Destination
   </button>
 </div>
     </form>

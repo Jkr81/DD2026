@@ -233,6 +233,16 @@ app.get("/api/destinations", async (req, res) => {
   const destinations = await Destination.find().lean();
   res.json(destinations);
 });
+// Get a specific destination by _id
+app.get("/api/destinations/:id", async (req, res) => {
+  const { id } = req.params;
+  const destination = await Destination.findById(id)
+    .populate("activities")
+    .lean();
+  //const activities = await Activity.find({ destination: id }).lean();
+
+  res.json(destination);
+});
 // start the server
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
