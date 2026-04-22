@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+
 interface Destination {
   _id: string;
   name: string;
@@ -38,10 +39,12 @@ export default function DestinationsPage() {
   <tbody>
     { destinations.map((destination) => (
       <tr key={destination._id}>
+        <td className="border border-gray-600 p-2">{destination.image}</td>
         <td className="border border-gray-600 p-2">{destination.name}</td>
         <td className="border border-gray-600 p-2">{destination.description}</td>
         <td className="border border-gray-600 p-2 w-[200px]">
-          <a href={`/destinations/edit/?id=${destination._id}`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <a className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          href={`/destinations/edit/?id=${destination._id}`}>
             Edit
           </a>
           <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">

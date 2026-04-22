@@ -29,20 +29,24 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <div className="w-full max-w-[1020px] m-auto p-4">
-          <nav className="w-full h-16 flex items-center justify-between mb-4">
-            <div className="text-2xl font-bold">Travel Site Admin</div>
-            <div>
-              <a href="/destinations" className="mr-4 text-blue-500 hover:underline">
-                Destinations
-              </a>
-              <a href="/destinations/new" className="text-blue-500 hover:underline">
-                Add Destination
-              </a>
-            </div>
-          </nav>  
-          {children}
+      <nav className="flex items-center justify-between py-4">
+        <a href="/" className="text-2xl font-bold p-2 m-2">
+          Travel Site Admin
+        </a>
+         <a href="/destinations" className="text-2xl font-bold p-2 m-2">
+          Destinations
+        </a>
+        <a href="/destinations/new" className="text-2xl font-bold p-2 m-2">
+          Add Destination
+        </a>
+
+
+
+      </nav>
+
+        {children}
         </div>
-      </body>
+        </body>
     </html>
   );
 }
